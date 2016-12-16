@@ -4,7 +4,7 @@ extern crate serde_json;
 
 use std::env;
 use std::io::prelude::*;
-use std::fs::File;
+use std::fs::OpenOptions;
 use std::collections::HashMap;
 use tera::{Context, Tera, TeraResult, TeraError, Value, to_value};
 
@@ -35,9 +35,14 @@ fn main() {
     tera.register_filter("markdown", markdown_filter);
     let mut ctx = Context::new();
 
-    if let Some(file_name) = env::args().next() {
-        let input_file = File::open(file_name); 
-        if let Ok(mut in_file) = input_file {
+    if let Some(file_name) = env::args().nth(1) {
+        println!("{}", file_name);
+        let file = OpenOptions::new()
+            .read(true)
+            .write(true)
+            .create(true)
+            .open(file_name);
+        if let Ok(mut in_file) = file {
             let mut input = String::new();
             in_file.read_to_string(&mut input).expect("File read fail.");
             ctx.add("content", &&*input);

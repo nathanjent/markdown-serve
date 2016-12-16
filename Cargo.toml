@@ -1,0 +1,10 @@
+[package]
+name = "markdown-serve"
+version = "0.1.0"
+authors = ["Nathan Jent <nathanjent@gmail.com>"]
+description = "Create a simple HTTP host to view markdown files in the browser."
+
+[dependencies]
+tera = "0.4.*"
+markdown = "0.1.*"
+serde_json = "0.8"
